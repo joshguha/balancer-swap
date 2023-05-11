@@ -15,10 +15,11 @@ const VAULT_ADDRESS = "0xBA12222222228d8Ba445958a75a0704d566BF2C8";
 
 const POOL_ID =
   "0xf0ad209e2e969eaaa8c882aac71f02d8a047d5c2000200000000000000000b49";
-const ASSET_IN = "0x3a58a54c066fdc0f2d55fc9c89f0415c92ebf3c4";
-const ASSET_OUT = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270";
+const ASSET_IN = "0x3a58a54c066fdc0f2d55fc9c89f0415c92ebf3c4"; // stMATIC
+const ASSET_OUT = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"; // WMATIC
+const AMOUNT = parseEther("0.25");
 
-async function main() {
+async function swap() {
   try {
     // Set up Web3 ---------------------------------------
     const provider = new JsonRpcProvider(rpcUrl);
@@ -32,7 +33,7 @@ async function main() {
       kind: 0,
       assetIn: ASSET_IN,
       assetOut: ASSET_OUT,
-      amount: parseEther("25"),
+      amount: AMOUNT,
       userData: "0x",
     };
 
@@ -51,11 +52,11 @@ async function main() {
 
     const args = [singleSwap, funds, limit, deadline];
 
-    const tx = await vault.swap(...args, { gasPrice: 200000000000 });
+    const tx = await vault.swap(...args);
     console.log("Your Tx hash: " + tx.hash);
   } catch (e) {
     console.error(e);
   }
 }
 
-main().catch(() => process.exit(1));
+swap().catch(() => process.exit(1));
